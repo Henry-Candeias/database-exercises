@@ -62,17 +62,17 @@ select database();
 -- 2 Write a query to find all employees whose last name starts and ends with 'E'. Use concat() to combine their first and last name together as a single column named full_name.
 SELECT CONCAT (first_name, ' ', last_name) as full_name
 FROM employees
-WHERE last_name LIKE '%E' AND last_name LIKE 'E%'
+WHERE last_name LIKE 'E%E'
 ;
 
 -- 3 Convert the names produced in your last query to all uppercase.
 SELECT UPPER (CONCAT (first_name, ' ', last_name)) as full_name
 FROM employees
-WHERE last_name LIKE '%E' AND last_name LIKE 'E%'
+WHERE last_name LIKE 'E%E'
 ;
 
 -- 4 Use a function to determine how many results were returned from your previous query.
-SELECT COUNT(*)
+SELECT COUNT(*) number_of_rows_returned
 FROM employees
 WHERE last_name LIKE '%E' AND last_name LIKE 'E%'
 ;
