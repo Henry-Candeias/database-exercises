@@ -56,13 +56,14 @@ SHOW tables;
 
 
 -- 2 Using the example in the Associative Table Joins section as a guide, write a query that shows each department along with the name of the current manager for that department.
-SELECT dept_name as Department_Name, CONCAT(first_name, ' ', last_name) Department_Manager
+SELECT dept_name as 'Department Name', CONCAT(first_name, ' ', last_name) 'Department Manager'
 FROM departments AS d
 INNER JOIN dept_manager AS dm
     USING(dept_no)
 INNER JOIN employees AS e
 	USING(emp_no)
 WHERE to_date > now()
+ORDER BY dept_name
 ;
 
 --   Department Name    | Department Manager
@@ -79,13 +80,14 @@ WHERE to_date > now()
 
 
 -- 3 Find the name of all departments currently managed by women.
-SELECT dept_name as Department_Name, CONCAT(first_name, ' ', last_name) Department_Manager, gender
+SELECT dept_name as 'Department Name', CONCAT(first_name, ' ', last_name) 'Manager Name'
 FROM departments AS d
 INNER JOIN dept_manager AS dm
     USING(dept_no)
 INNER JOIN employees AS e
 	USING(emp_no)
 WHERE to_date > now() AND gender = 'F'
+ORDER BY dept_name
 ;
 
 
@@ -98,7 +100,7 @@ WHERE to_date > now() AND gender = 'F'
 
 
 -- 4 Find the current titles of employees currently working in the Customer Service department.
-SELECT title, count(*)
+SELECT title as Title, count(*) as Cnt
 FROM titles AS t
 INNER JOIN employees AS e
     USING(emp_no)
@@ -124,7 +126,7 @@ ORDER BY title
 
 
 -- 5 Find the current salary of all current managers.
-SELECT dept_name as Department_Name, CONCAT(first_name, ' ', last_name) name, salary
+SELECT dept_name as 'Department Name', CONCAT(first_name, ' ', last_name) Name, Salary
 FROM departments AS d
 INNER JOIN dept_emp AS de
     USING(dept_no)
@@ -275,14 +277,16 @@ ORDER BY average_salary DESC
 
 
 -- 11 Bonus Find the names of all current employees, their department name, and their current manager's name.
-SELECT dept_name as Department_Name, CONCAT(first_name, ' ', last_name) Department_Manager
+SELECT CONCAT(e.first_name, ' ', e.last_name) Employee_Name, d.dept_name as Department_Name, CONCAT(managers.first_name, ' ', managers.last_name) Manager_Name
 FROM employees AS e
 INNER JOIN dept_emp AS de
-    USING(emp_no)
+    ON e.emp_no = de.emp_no
+INNER JOIN deptartments AS d
+    ON d.dept_no = de.dept_no
 INNER JOIN dept_manager AS dm
-    USING(dept_no)
-INNER JOIN departments AS d
-	USING(dept_no)
+	ON dm.dept_no = de.dept_no
+INNER JOIN employees AS managers
+	ON managers.emp_no = dm.emp_no
 WHERE dm.to_date > now() AND de.to_date > now()
 ;
 
