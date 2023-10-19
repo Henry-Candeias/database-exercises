@@ -112,8 +112,8 @@ WHERE to_date > NOW() AND salary >
 SELECT (83) * 100 / (240124)
 FROM salaries
 WHERE to_date > NOW()
+LIMIT 1
 ;
-
 
 
 
@@ -123,12 +123,30 @@ WHERE to_date > NOW()
 
 
 
+
 -- BONUS
 
+
 -- Find all the department names that currently have female managers.
+SELECT dept_name as 'Department Name'
+FROM 	(
+			SELECT first_name, last_name, emp_no
+			FROM employees
+			WHERE gender = 'F'
+		) as emp_names
+    JOIN employees as e
+		USING(emp_no)
+	JOIN dept_manager as dm
+		USING(emp_no)
+    JOIN departments as d
+		USING(dept_no)
+WHERE dm.to_date > now()
+;
 
 
 -- Find the first and last name of the employee with the highest salary.
+
+
 
 
 -- Find the department name that the employee with the highest salary works in.
